@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>Algoritmo Genético Caminantes</h1>
+            <h1>🤖 Algoritmo Genético Caminantes</h1>
             <p>Simulación de criaturas que aprenden a caminar usando algoritmos genéticos</p>
         </header>
         
@@ -19,15 +19,15 @@
             <div class="simulation-container">
                 <canvas id="simulationCanvas" width="800" height="500"></canvas>
                 <div class="current-walker-info">
-                    <h3>Criatura Actual</h3>
-                    <p>Nombre: <span id="currentWalkerName">-</span></p>
-                    <p>Puntuación: <span id="currentWalkerScore">0</span></p>
+                    <h3>🎯 Criatura Actual</h3>
+                    <p>🤖 Nombre: <span id="currentWalkerName" class="stat-value">-</span></p>
+                    <p>🏆 Puntuación: <span id="currentWalkerScore" class="stat-value">0</span></p>
                 </div>
             </div>
             
             <div class="controls-panel">
                 <div class="control-group">
-                    <h3>Parámetros de Evolución</h3>
+                    <h3>⚙️ Parámetros de Evolución</h3>
                     
                     <div class="control-row">
                         <label for="populationSize">Tamaño de población:</label>
@@ -59,7 +59,7 @@
                 </div>
                 
                 <div class="control-group">
-                    <h3>Configuración de Simulación</h3>
+                    <h3>🎬 Configuración de Simulación</h3>
                     
                     <div class="control-row">
                         <label for="roundLength">Longitud de la ronda (segundos):</label>
@@ -79,7 +79,7 @@
                     <div class="control-row">
                         <label for="simulationSpeed">Velocidad de simulación:</label>
                         <select id="simulationSpeed">
-                            <option value="0">Pause</option>
+                            <option value="0">⏸️ Pause</option>
                             <option value="30">30x</option>
                             <option value="60" selected>60x</option>
                             <option value="120">120x</option>
@@ -89,32 +89,32 @@
                 </div>
                 
                 <div class="control-group">
-                    <h3>Controles</h3>
+                    <h3>🎮 Controles</h3>
                     
                     <div class="button-row">
-                        <button id="startBtn">Iniciar</button>
-                        <button id="pauseBtn">Pausa</button>
-                        <button id="resetBtn">Reiniciar</button>
-                        <button id="stepBtn">Paso</button>
-                        <button id="nextGenBtn">Siguiente Generación</button>
+                        <button id="startBtn">▶️ Iniciar</button>
+                        <button id="pauseBtn">⏸️ Pausa</button>
+                        <button id="resetBtn">🔄 Reiniciar</button>
+                        <button id="stepBtn">⏭️ Paso</button>
+                        <button id="nextGenBtn">⏭️ Siguiente Generación</button>
                     </div>
                     
                     <div class="button-row">
-                        <button id="exportGenomesBtn">Exportar Genomas</button>
-                        <button id="importGenomesBtn">Importar Genomas</button>
+                        <button id="exportGenomesBtn">📤 Exportar Genomas</button>
+                        <button id="importGenomesBtn">📥 Importar Genomas</button>
                         <input type="file" id="genomeFileInput" accept=".json" style="display: none;">
                     </div>
                 </div>
                 
                 <div class="control-group">
-                    <h3>Estadísticas</h3>
-                    <p>Generación actual: <span id="generationCount">0</span></p>
-                    <p>Mejor puntuación: <span id="bestScore">0</span></p>
-                    <p>Promedio puntuación: <span id="avgScore">0</span></p>
+                    <h3>📊 Estadísticas</h3>
+                    <p>🔢 Generación actual: <span id="generationCount" class="stat-value">0</span></p>
+                    <p>🥇 Mejor puntuación: <span id="bestScore" class="stat-value">0</span></p>
+                    <p>📈 Promedio puntuación: <span id="avgScore" class="stat-value">0</span></p>
                 </div>
                 
                 <div class="control-group">
-                    <h3>Tabla de Récords</h3>
+                    <h3>🏆 Tabla de Récords</h3>
                     <div id="recordsTable">
                         <table>
                             <thead>

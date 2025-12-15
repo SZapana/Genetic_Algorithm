@@ -16,7 +16,7 @@ class Renderer {
         this.centerY = this.height * 0.8; // Suelo en la parte inferior
         
         // Color de fondo
-        this.backgroundColor = '#eef5ff';
+        this.backgroundColor = '#0f172a';
     }
 
     // Convertir coordenadas físicas a coordenadas de lienzo
@@ -34,6 +34,9 @@ class Renderer {
         this.ctx.fillStyle = this.backgroundColor;
         this.ctx.fillRect(0, 0, this.width, this.height);
         
+        // Dibujar un degradado sutil en el fondo
+        this.drawBackground();
+        
         // Dibujar el suelo
         this.drawGround();
         
@@ -43,49 +46,91 @@ class Renderer {
             this.renderWalker(walker);
         }
     }
+    
+    // Dibujar un fondo más interesante
+    drawBackground() {
+        // Dibujar un degradado radial
+        const gradient = this.ctx.createRadialGradient(
+            this.centerX, this.centerY, 0,
+            this.centerX, this.centerY, Math.max(this.width, this.height) / 2
+        );
+        gradient.addColorStop(0, '#1e293b');
+        gradient.addColorStop(1, '#0f172a');
+        
+        this.ctx.fillStyle = gradient;
+        this.ctx.fillRect(0, 0, this.width, this.height);
+    }
 
     // Dibujar el suelo
     drawGround() {
-        this.ctx.strokeStyle = '#333';
-        this.ctx.lineWidth = 2;
+        this.ctx.strokeStyle = '#4cc9f0';
+        this.ctx.lineWidth = 3;
         this.ctx.beginPath();
         
         // El suelo está en y = -1 en coordenadas físicas
         const groundY = this.centerY - (-1) * this.scale; // Convertir coordenadas físicas a canvas
         
+        // Dibujar una línea con estilo más interesante
+        this.ctx.setLineDash([5, 15]);
         this.ctx.moveTo(0, groundY);
         this.ctx.lineTo(this.width, groundY);
         this.ctx.stroke();
+        
+        // Restablecer el estilo de línea
+        this.ctx.setLineDash([]);
     }
 
     // Dibujar un walker específico
     renderWalker(walker) {
         // Dibujar torso
         if (walker.bodyParts.torso) {
-            this.drawBodyPart(walker.bodyParts.torso, '#3498db', walker.genome.bodyWidth, walker.genome.bodyHeight);
+            this.drawBodyPart(walker.bodyParts.torso, '#4361ee', walker.genome.bodyWidth, walker.genome.bodyHeight, true);
         }
         
         // Dibujar piernas izquierda
         if (walker.bodyParts.leftUpperLeg) {
-            this.drawBodyPart(walker.bodyParts.leftUpperLeg, '#e74c3c', walker.genome.legSegmentThickness, walker.genome.legSegmentLength);
+            this.drawBodyPart(walker.bodyParts.leftUpperLeg, '#f72585', walker.genome.legSegmentThickness, walker.genome.legSegmentLength);
         }
         
         if (walker.bodyParts.leftLowerLeg) {
-            this.drawBodyPart(walker.bodyParts.leftLowerLeg, '#c0392b', walker.genome.legSegmentThickness, walker.genome.legSegmentLength);
+            this.drawBodyPart(walker.bodyParts.leftLowerLeg, '#b5179e', walker.genome.legSegmentThickness, walker.genome.legSegmentLength);
         }
         
         // Dibujar piernas derecha
         if (walker.bodyParts.rightUpperLeg) {
-            this.drawBodyPart(walker.bodyParts.rightUpperLeg, '#e74c3c', walker.genome.legSegmentThickness, walker.genome.legSegmentLength);
+            this.drawBodyPart(walker.bodyParts.rightUpperLeg, '#7209b7', walker.genome.legSegmentThickness, walker.genome.legSegmentLength);
         }
         
         if (walker.bodyParts.rightLowerLeg) {
-            this.drawBodyPart(walker.bodyParts.rightLowerLeg, '#c0392b', walker.genome.legSegmentThickness, walker.genome.legSegmentLength);
+            this.drawBodyPart(walker.bodyParts.rightLowerLeg, '#560bad', walker.genome.legSegmentThickness, walker.genome.legSegmentLength);
         }
+        
+        // Dibujar una sombra debajo de cada walker
+        this.drawShadow(walker);
+    }
+    
+    // Dibujar sombra debajo del walker
+    drawShadow(walker) {
+        if (!walker.bodyParts.torso) return;
+        
+        const torsoPos = walker.bodyParts.torso.getPosition();
+        const canvasPos = this.physToCanvas(torsoPos);
+        
+        // Sombra debajo del torso
+        this.ctx.beginPath();
+        this.ctx.arc(canvasPos.x, this.centerY + 5, walker.genome.bodyWidth * this.scale * 0.8, 0, Math.PI * 2);
+        const gradient = this.ctx.createRadialGradient(
+            canvasPos.x, this.centerY + 5, 0,
+            canvasPos.x, this.centerY + 5, walker.genome.bodyWidth * this.scale * 0.8
+        );
+        gradient.addColorStop(0, 'rgba(0, 0, 0, 0.5)');
+        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        this.ctx.fillStyle = gradient;
+        this.ctx.fill();
     }
 
     // Dibujar una parte del cuerpo (caja rectangular)
-    drawBodyPart(body, color, width, height) {
+    drawBodyPart(body, color, width, height, isTorso = false) {
         if (!body) return;
         
         const pos = body.getPosition();
@@ -103,17 +148,40 @@ class Renderer {
         
         // Dibujar la caja
         this.ctx.fillStyle = color;
-        this.ctx.strokeStyle = '#2c3e50';
-        this.ctx.lineWidth = 1;
+        this.ctx.strokeStyle = '#ffffff';
+        this.ctx.lineWidth = 2;
         
-        // Dibujar rectángulo centrado en el origen
-        this.ctx.fillRect(-width * this.scale / 2, -height * this.scale / 2, 
-                         width * this.scale, height * this.scale);
-        this.ctx.strokeRect(-width * this.scale / 2, -height * this.scale / 2, 
-                           width * this.scale, height * this.scale);
+        // Si es el torso, dibujar con esquinas redondeadas
+        if (isTorso) {
+            this.drawRoundedRect(-width * this.scale / 2, -height * this.scale / 2, 
+                                width * this.scale, height * this.scale, 10);
+            this.ctx.fill();
+            this.ctx.stroke();
+        } else {
+            // Dibujar rectángulo centrado en el origen
+            this.ctx.fillRect(-width * this.scale / 2, -height * this.scale / 2, 
+                             width * this.scale, height * this.scale);
+            this.ctx.strokeRect(-width * this.scale / 2, -height * this.scale / 2, 
+                               width * this.scale, height * this.scale);
+        }
         
         // Restaurar el estado del contexto
         this.ctx.restore();
+    }
+    
+    // Dibujar rectángulo con esquinas redondeadas
+    drawRoundedRect(x, y, width, height, radius) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(x + radius, y);
+        this.ctx.lineTo(x + width - radius, y);
+        this.ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        this.ctx.lineTo(x + width, y + height - radius);
+        this.ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        this.ctx.lineTo(x + radius, y + height);
+        this.ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        this.ctx.lineTo(x, y + radius);
+        this.ctx.quadraticCurveTo(x, y, x + radius, y);
+        this.ctx.closePath();
     }
 
     // Actualizar la información del walker actual en la UI

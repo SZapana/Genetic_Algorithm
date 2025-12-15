@@ -1,5 +1,69 @@
 // Punto de entrada principal de la aplicación
 document.addEventListener('DOMContentLoaded', () => {
+    // Genomas predefinidos interesantes para iniciar la simulación
+    const predefinedGenomes = [
+        {
+            name: "WalkerPro",
+            genome: {
+                bodyWidth: 0.5,
+                bodyHeight: 0.3,
+                legSegmentLength: 0.4,
+                legSegmentThickness: 0.1,
+                motorAmplitudes: [0.8, -0.6, 0.7, -0.5],
+                motorFrequencies: [2.5, 1.8, 2.2, 1.9],
+                motorPhases: [0.5, 1.2, 0.8, 2.1]
+            }
+        },
+        {
+            name: "StriderMax",
+            genome: {
+                bodyWidth: 0.45,
+                bodyHeight: 0.35,
+                legSegmentLength: 0.45,
+                legSegmentThickness: 0.08,
+                motorAmplitudes: [0.6, -0.4, 0.9, -0.3],
+                motorFrequencies: [2.0, 2.2, 1.8, 2.4],
+                motorPhases: [1.0, 0.5, 1.5, 0.9]
+            }
+        },
+        {
+            name: "AmblerFast",
+            genome: {
+                bodyWidth: 0.6,
+                bodyHeight: 0.25,
+                legSegmentLength: 0.5,
+                legSegmentThickness: 0.12,
+                motorAmplitudes: [0.7, -0.8, 0.6, -0.2],
+                motorFrequencies: [2.8, 1.5, 2.0, 1.6],
+                motorPhases: [0.3, 1.8, 0.6, 2.4]
+            }
+        },
+        {
+            name: "StrollerFlex",
+            genome: {
+                bodyWidth: 0.4,
+                bodyHeight: 0.4,
+                legSegmentLength: 0.35,
+                legSegmentThickness: 0.09,
+                motorAmplitudes: [0.9, -0.2, 0.5, -0.7],
+                motorFrequencies: [1.9, 2.1, 1.8, 2.0],
+                motorPhases: [1.2, 0.7, 1.9, 0.4]
+            }
+        },
+        {
+            name: "MarcherPro",
+            genome: {
+                bodyWidth: 0.55,
+                bodyHeight: 0.3,
+                legSegmentLength: 0.42,
+                legSegmentThickness: 0.11,
+                motorAmplitudes: [0.5, -0.7, 0.8, -0.4],
+                motorFrequencies: [2.2, 1.7, 2.1, 1.8],
+                motorPhases: [0.8, 1.4, 0.5, 2.0]
+            }
+        }
+    ];
+
     // Inicializar componentes
     const renderer = new Renderer('simulationCanvas');
     const physicsEngine = new PhysicsEngine();
@@ -18,8 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let roundDuration = parseInt(document.getElementById('roundLength').value) * 1000; // Duración de la ronda en ms
     let currentRoundTime = 0; // Tiempo transcurrido en la ronda actual
     
-    // Inicializar la población
-    ga.initializePopulation();
+    // Inicializar la población con genomas predefinidos
+    ga.initializePopulationWithGenomes(predefinedGenomes);
     
     // Variables para controlar la simulación
     let lastRenderTime = 0;

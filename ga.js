@@ -19,6 +19,26 @@ class GeneticAlgorithm {
         }
         this.generation = 0;
     }
+    
+    // Inicializar la población con genomas predefinidos (completando con aleatorios si es necesario)
+    initializePopulationWithGenomes(predefinedGenomes = []) {
+        this.population = [];
+        
+        // Agregar los genomas predefinidos
+        for (let i = 0; i < Math.min(predefinedGenomes.length, this.populationSize); i++) {
+            const genomeData = predefinedGenomes[i];
+            const walker = new Walker(genomeData.genome, genomeData.name);
+            this.population.push(walker);
+        }
+        
+        // Completar con walkers aleatorios si es necesario
+        while (this.population.length < this.populationSize) {
+            const walker = new Walker();
+            this.population.push(walker);
+        }
+        
+        this.generation = 0;
+    }
 
     // Seleccionar un walker de la población basado en su fitness (ruleta)
     selectParent() {
