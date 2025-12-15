@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genetic Algorithm Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Genetic Algorithm Simulator</h1>
+            <p>Interactive visualization of evolutionary algorithms</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <div class="panel-section">
+                    <h3>Population Settings</h3>
+                    <div class="input-group">
+                        <label for="populationSize">Population Size:</label>
+                        <input type="range" id="populationSize" min="10" max="200" value="50">
+                        <span id="populationSizeValue">50</span>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="generations">Max Generations:</label>
+                        <input type="range" id="generations" min="10" max="500" value="100">
+                        <span id="generationsValue">100</span>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>Selection Method</h3>
+                    <div class="input-group">
+                        <select id="selectionMethod">
+                            <option value="roulette">Roulette Wheel</option>
+                            <option value="tournament" selected>Tournament</option>
+                            <option value="ranking">Ranking</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group" id="tournamentSizeGroup">
+                        <label for="tournamentSize">Tournament Size:</label>
+                        <input type="range" id="tournamentSize" min="2" max="10" value="3">
+                        <span id="tournamentSizeValue">3</span>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>Crossover Settings</h3>
+                    <div class="input-group">
+                        <select id="crossoverType">
+                            <option value="single_point" selected>Single Point</option>
+                            <option value="two_point">Two Point</option>
+                            <option value="uniform">Uniform</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="crossoverRate">Crossover Rate:</label>
+                        <input type="range" id="crossoverRate" min="0" max="100" value="80">
+                        <span id="crossoverRateValue">80%</span>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>Mutation Settings</h3>
+                    <div class="input-group">
+                        <select id="mutationType">
+                            <option value="bit_flip" selected>Bit Flip</option>
+                            <option value="swap">Swap</option>
+                            <option value="gaussian">Gaussian</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="mutationRate">Mutation Rate:</label>
+                        <input type="range" id="mutationRate" min="0" max="20" value="5">
+                        <span id="mutationRateValue">5%</span>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>Elitism</h3>
+                    <div class="input-group">
+                        <label for="elitismToggle">Enable Elitism:</label>
+                        <input type="checkbox" id="elitismToggle">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="eliteCount">Number of Elites:</label>
+                        <input type="range" id="eliteCount" min="0" max="10" value="2">
+                        <span id="eliteCountValue">2</span>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>Objective Function</h3>
+                    <div class="input-group">
+                        <select id="objectiveFunction">
+                            <option value="maximization">Maximization</option>
+                            <option value="minimization">Minimization</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <select id="problemDomain">
+                            <option value="mathematical">Mathematical Optimization</option>
+                            <option value="knapsack">Knapsack Problem</option>
+                            <option value="rastrigin" selected>Rastrigin Function</option>
+                            <option value="sphere">Sphere Function</option>
+                            <option value="ackley">Ackley Function</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="simulation-controls">
+                    <button id="startBtn" class="btn-primary">▶ Start</button>
+                    <button id="pauseBtn" class="btn-secondary">⏸ Pause</button>
+                    <button id="stepBtn" class="btn-secondary">⏭ Step</button>
+                    <button id="resetBtn" class="btn-secondary">🔄 Reset</button>
+                </div>
+
+                <div class="speed-control">
+                    <label for="speedSlider">Speed:</label>
+                    <input type="range" id="speedSlider" min="1" max="100" value="50">
+                    <span id="speedValue">50%</span>
+                </div>
+            </div>
+
+            <!-- Visualization Area -->
+            <div class="visualization-area">
+                <div class="stats-panel">
+                    <div class="stat-box">
+                        <h4>Generation</h4>
+                        <div id="generationCounter">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Best Fitness</h4>
+                        <div id="bestFitness">0.00</div>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Avg Fitness</h4>
+                        <div id="avgFitness">0.00</div>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Worst Fitness</h4>
+                        <div id="worstFitness">0.00</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="fitnessChart"></canvas>
+                </div>
+
+                <div class="population-viz">
+                    <h3>Population Visualization</h3>
+                    <div id="populationCanvasContainer">
+                        <canvas id="populationCanvas" width="600" height="300"></canvas>
+                    </div>
+                </div>
+
+                <div class="process-steps">
+                    <h3>Evolution Process</h3>
+                    <div class="step-indicators">
+                        <div class="step active" id="selectionStep">Selection</div>
+                        <div class="step" id="crossoverStep">Crossover</div>
+                        <div class="step" id="mutationStep">Mutation</div>
+                        <div class="step" id="replacementStep">Replacement</div>
+                    </div>
+                    <div class="current-step-info">
+                        <p id="stepDescription">Ready to start simulation...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Genetic Algorithm Simulator | Academic Demo</p>
+        </footer>
+    </div>
+
+    <script src="ga-core.js"></script>
+    <script src="visualizer.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

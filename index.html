@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genetic Walkers</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Genetic Walkers</h1>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <label>Current Generation:</label>
+                <span id="generation">1</span>
+            </div>
+            <div class="stat-box">
+                <label>Record Distance:</label>
+                <span id="record-distance">0</span>
+            </div>
+            <div class="stat-box">
+                <label>Best Walker:</label>
+                <span id="best-walker">-</span>
+            </div>
+        </div>
+
+        <div class="simulation-container">
+            <canvas id="simulation-canvas"></canvas>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="mutation-probability">Gene Mutation Probability</label>
+                <input type="range" id="mutation-probability" min="0" max="100" value="10">
+                <span id="mutation-probability-value">10%</span>
+            </div>
+            
+            <div class="control-group">
+                <label for="mutation-amount">Gene Mutation Amount</label>
+                <input type="range" id="mutation-amount" min="0" max="100" value="10">
+                <span id="mutation-amount-value">10%</span>
+            </div>
+            
+            <div class="control-group">
+                <label for="champions-to-copy">Champions to Copy</label>
+                <input type="range" id="champions-to-copy" min="0" max="10" value="3">
+                <span id="champions-to-copy-value">3</span>
+            </div>
+            
+            <div class="control-group">
+                <label for="motor-noise">Motor Noise</label>
+                <input type="range" id="motor-noise" min="0" max="5" value="1">
+                <span id="motor-noise-value">1%</span>
+            </div>
+            
+            <div class="control-group">
+                <label for="round-length">Round Length</label>
+                <select id="round-length">
+                    <option value="very-short">Very Short</option>
+                    <option value="short">Short</option>
+                    <option value="regular" selected>Regular</option>
+                    <option value="long">Long</option>
+                    <option value="loooong">Looooong</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="animation-quality">Animation Quality</label>
+                <select id="animation-quality">
+                    <option value="none">None</option>
+                    <option value="10fps">10 FPS</option>
+                    <option value="30fps" selected>30 FPS</option>
+                    <option value="60fps">60 FPS</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="simulation-speed">Simulation Speed</label>
+                <select id="simulation-speed">
+                    <option value="pause">Pause</option>
+                    <option value="30">30</option>
+                    <option value="60" selected>60</option>
+                    <option value="120">120</option>
+                    <option value="1000">1000</option>
+                </select>
+            </div>
+            
+            <button id="reset-button">Reset Simulation</button>
+        </div>
+
+        <div class="walkers-list">
+            <h3>Walkers Performance</h3>
+            <div id="walkers-performance"></div>
+        </div>
+    </div>
+
+    <!-- Include Matter.js physics engine -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <script src="walker.js"></script>
+    <script src="genetic-algorithm.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
