@@ -1,0 +1,230 @@
+/* Estilos para la aplicación de caminantes genéticos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.main-content {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.simulation-container {
+    flex: 1;
+    min-width: 800px;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+#simulationCanvas {
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    background-color: #eef5ff;
+    display: block;
+    margin: 0 auto;
+}
+
+.current-walker-info {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+
+.current-walker-info h3 {
+    margin-bottom: 10px;
+    color: #2575fc;
+}
+
+.controls-panel {
+    flex: 0 0 400px;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    height: fit-content;
+}
+
+.control-group {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.control-group:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.control-group h3 {
+    margin-bottom: 15px;
+    color: #2575fc;
+    font-size: 1.2rem;
+}
+
+.control-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.control-row label {
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #555;
+}
+
+.control-row input[type="number"],
+.control-row select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.control-row input[type="range"] {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+button {
+    padding: 10px 15px;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    flex: 1;
+    min-width: 120px;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+#recordsTable table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#recordsTable th,
+#recordsTable td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+#recordsTable th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.stats-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.stats-item {
+    text-align: center;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    flex: 1;
+    margin: 0 5px;
+}
+
+.stats-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2575fc;
+}
+
+@media (max-width: 1200px) {
+    .main-content {
+        flex-direction: column;
+    }
+    
+    .simulation-container {
+        min-width: auto;
+    }
+    
+    .controls-panel {
+        flex: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .button-row {
+        flex-direction: column;
+    }
+    
+    button {
+        min-width: auto;
+    }
+}
